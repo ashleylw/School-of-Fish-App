@@ -1,4 +1,4 @@
-package edu.usc.cs401.schooloffish;
+package edu.usc.cs401.schooloffish.Controller;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -8,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import edu.usc.cs401.schooloffish.R;
 
 public class MainActivity extends AppCompatActivity {
 
