@@ -5,4 +5,15 @@ package edu.usc.cs401.schooloffish.Model;
  */
 
 public class BigFish {
+
+    String name;
+
+    public BigFish(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
 }

@@ -1,5 +1,6 @@
 package edu.usc.cs401.schooloffish.Model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -7,12 +8,11 @@ import java.util.List;
  */
 
 public class Game {
-    private static final Game ourInstance = new Game();
+    //private static final Game ourInstance = new Game("School of Fish");
 
-    public static Game getInstance() {
-        return ourInstance;
-    }
+    //public static Game getInstance() { return ourInstance; }
 
+    private String name;
     private BigFish bigFish;
     private List<Player> players;
 
@@ -20,7 +20,31 @@ public class Game {
     private double roundLength;
     private double preRoundLength;
 
-    private Game() {
+    public Game(String name, BigFish bigFish) {
+        this.name = name;
+        this.bigFish = bigFish;
+        this.players = new ArrayList<Player>();
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public BigFish getBigFish() {
+        return this.bigFish;
+    }
+
+    /**
+     * Add a player to the game IF there are less than 13 players
+     * @param p player to potentially add
+     */
+    public void addPlayer(Player p) {
+        if (players.size() < 13) {
+            players.add(p);
+        }
+    }
+
+    public void start() {
         setUp();
 
         for (int i = 0; i < numOfRounds; i++) {
@@ -32,6 +56,7 @@ public class Game {
     }
 
     /**
+     * PENDING GAME
      * In setUp, the players are initialized, given roles, asked their peeks (and additional info).
      * The bigFish is prompted to set number of rounds, round length, and preRound length
      * When everything is set, method returns

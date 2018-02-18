@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Create New Game"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="20dp"
+        android:textAlignment="center"
+        android:padding="10dp"/>
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:textSize="20dp"
+            android:text="Game Name" />
+
+        <EditText
+            android:id="@+id/game_name_entry"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            tools:ignore="LabelFor"
+            tools:hint="Game Name" />
+
+    </GridLayout>
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:textSize="20dp"
+            android:text="Big Fish (Your Name)" />
+
+        <EditText
+            android:id="@+id/big_fish_name_entry"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            tools:ignore="LabelFor"
+            tools:hint="Big Fish (Your Name)" />
+
+    </GridLayout>
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:textSize="20dp"
+            android:text="Number of Rounds" />
+
+        <NumberPicker
+            android:id="@+id/num_rounds_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:textSize="20dp"
+            android:layout_gravity="end"/>
+
+    </GridLayout>
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:textSize="20dp"
+            android:text="Time During Rounds" />
+
+        <NumberPicker
+            android:id="@+id/round_length_mins"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:textSize="20dp"
+            android:layout_gravity="end"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:textSize="15dp"
+            android:text="mins"
+            android:padding="10dp"/>
+
+        <NumberPicker
+            android:id="@+id/round_length_secs"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:textSize="20dp"
+            android:layout_gravity="end"
+            android:layout_row="1"
+            android:layout_column="1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:textSize="15dp"
+            android:text="secs"
+            android:padding="10dp"/>
+
+    </GridLayout>
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:textSize="20dp"
+            android:text="Time Between Rounds" />
+
+        <NumberPicker
+            android:id="@+id/preround_length_mins"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:textSize="20dp"
+            android:layout_gravity="end"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:textSize="15dp"
+            android:text="mins"
+            android:padding="10dp"/>
+
+        <NumberPicker
+            android:id="@+id/preround_length_secs"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:textSize="20dp"
+            android:layout_gravity="end"
+            android:layout_row="1"
+            android:layout_column="1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:textSize="15dp"
+            android:text="secs"
+            android:padding="10dp"/>
+
+    </GridLayout>
+
+    <Button
+        android:id="@+id/create_game_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
+        android:text="Create"/>
+
+</LinearLayout>
