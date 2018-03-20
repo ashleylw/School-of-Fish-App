@@ -17,6 +17,7 @@ import android.widget.TextView;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import edu.usc.cs401.schooloffish.Model.AllGames;
 import edu.usc.cs401.schooloffish.Model.BigFish;
 import edu.usc.cs401.schooloffish.Model.Game;
 import edu.usc.cs401.schooloffish.Model.Player;
@@ -29,7 +30,8 @@ import edu.usc.cs401.schooloffish.R;
 public class GameList extends Fragment {
     public static GameList gameList = null;
 
-    private ArrayList<Game> games;
+    private AllGames allGames = AllGames.getInstance();
+
     public ListView listView;
     public FloatingActionButton newGameButton;
     private GameListViewAdapter gameListViewAdapter;
@@ -48,13 +50,6 @@ public class GameList extends Fragment {
         super.onCreate(savedInstanceState);
 
         gameList = this;
-
-        games = new ArrayList<Game>();
-
-        games.add(new Game("Game 1", new BigFish("Chantelle")));
-        games.add(new Game("Game 2", new BigFish("June")));
-        games.add(new Game("Game 3", new BigFish("Selene")));
-        games.add(new Game("Game 4", new BigFish("Ren")));
     }
 
     //@Override
@@ -62,32 +57,22 @@ public class GameList extends Fragment {
         View v = inflater.inflate(R.layout.game_list, container, false);
 
         TextView noGamesText = v.findViewById(R.id.noGamesText);
-        if (games.size() > 0) {
+        if (allGames.size() > 0) {
             noGamesText.setText("");
         } else noGamesText.setText("No Pending Games");
-
-        newGameButton = (FloatingActionButton) v.findViewById(R.id.newGameButton);
-        newGameButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                //        .setAction("Action", null).show();
-
-                Intent intent = new Intent(getActivity(), CreateGame.class);
-                startActivityForResult(intent, 0);
-            }
-        });
 
         // call the views with this layout
         listView = (ListView) v.findViewById(R.id.gameListView);
 
-        gameListViewAdapter = new GameListViewAdapter(getActivity(), 0, games);
+        gameListViewAdapter = new GameListViewAdapter(getActivity(), 0);
         listView.setAdapter(gameListViewAdapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> a, View v, int position,
                                     long id) {
+                // TODO: Have user prompted if they would like to join game
+
                 /*
                 Intent intent = new Intent(getActivity(), JoinGameInterfaceController.class);
                 intent.putExtra("PROFILE", (Serializable) profiles.get(position));
@@ -97,6 +82,29 @@ public class GameList extends Fragment {
         });
 
         return v;
+    }
+
+    /**
+     * Override of onResume method, notify data set changed in adapter
+     */
+    @Override
+    public void onResume() {
+        super.onResume();
+        this.gameListViewAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * Returning from the CreateGame activity, reset game list
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (data == null) {
+            System.out.println("Activity result from creating a game was null");
+            return;
+        }
     }
 
 }

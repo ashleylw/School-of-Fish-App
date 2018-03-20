@@ -45,6 +45,16 @@
             android:textAlignment="center"
             android:textSize="20dp"
             />
+
+        <TextView
+            android:id="@+id/mOutputText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text=""
+            android:textColor="@color/colorPrimaryDark"
+            android:textAlignment="center"
+            android:textSize="20dp"
+            />
     </FrameLayout>
 
 </LinearLayout>

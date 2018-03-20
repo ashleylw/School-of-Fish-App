@@ -1,5 +1,7 @@
 package edu.usc.cs401.schooloffish.Model;
 
+import com.google.api.services.sheets.v4.model.Spreadsheet;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,13 +18,17 @@ public class Game {
     private BigFish bigFish;
     private List<Player> players;
 
+    private Spreadsheet sheet;
+
     private int numOfRounds;
     private double roundLength;
     private double preRoundLength;
 
-    public Game(String name, BigFish bigFish) {
+    public Game(String name, BigFish bigFish, int numOfRounds, Spreadsheet sheet) {
         this.name = name;
         this.bigFish = bigFish;
+        this.numOfRounds = numOfRounds;
+        this.sheet = sheet;
         this.players = new ArrayList<Player>();
     }
 

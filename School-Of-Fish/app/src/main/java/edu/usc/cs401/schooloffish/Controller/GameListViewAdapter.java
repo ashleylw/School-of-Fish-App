@@ -17,6 +17,7 @@ import android.widget.ToggleButton;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import edu.usc.cs401.schooloffish.Model.AllGames;
 import edu.usc.cs401.schooloffish.Model.Game;
 import edu.usc.cs401.schooloffish.R;
 
@@ -26,19 +27,18 @@ import edu.usc.cs401.schooloffish.R;
 
 public class GameListViewAdapter extends ArrayAdapter<Game> {
 
-    protected ArrayList<Game> games;
+    private AllGames allGames = AllGames.getInstance();
     private View view;
     private Game game;
 
-    public GameListViewAdapter(Activity activity, int id, ArrayList<Game> objects){
-        super(activity, 0, objects);
-        this.games = objects;
+    public GameListViewAdapter(Activity activity, int id){
+        super(activity, 0);
     }
 
     public View getView(final int position, View convertView, ViewGroup parent) {
         view = convertView;
         // Get the data item for this position
-        game = games.get(position);
+        game = allGames.getList().get(position);
 
         // Check if an existing view is being reused, otherwise inflate the view
         ViewHolder viewHolder = null; // view lookup cache stored in tag

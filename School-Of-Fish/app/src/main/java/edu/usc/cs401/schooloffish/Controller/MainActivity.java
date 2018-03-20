@@ -4,27 +4,16 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+
 import com.google.api.client.googleapis.extensions.android.gms.auth.GooglePlayServicesAvailabilityIOException;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
-
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.ExponentialBackOff;
 
 import com.google.api.services.sheets.v4.SheetsScopes;
-
-import com.google.api.services.sheets.v4.model.*;
-
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.TextView;
+import com.google.api.services.sheets.v4.model.ValueRange;
 
 import android.Manifest;
 import android.accounts.AccountManager;
@@ -38,11 +27,14 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.text.method.ScrollingMovementMethod;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -50,15 +42,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import edu.usc.cs401.schooloffish.Model.BigFish;
+import edu.usc.cs401.schooloffish.Model.Game;
 import edu.usc.cs401.schooloffish.R;
-
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class MainActivity extends Activity implements EasyPermissions.PermissionCallbacks {
+public class MainActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
     GoogleAccountCredential mCredential;
     private TextView mOutputText;
-    private Button mCallApiButton;
+    private FloatingActionButton mNewGameButton;
     ProgressDialog mProgress;
 
     static final int REQUEST_ACCOUNT_PICKER = 1000;
@@ -66,56 +59,40 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
     static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
     static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
 
-    private static final String BUTTON_TEXT = "Call Google Sheets API";
     private static final String PREF_ACCOUNT_NAME = "accountName";
     private static final String[] SCOPES = { SheetsScopes.SPREADSHEETS_READONLY };
 
 
         @Override
     protected void onCreate(Bundle savedInstanceState) {
-        /*super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);*/
-        super.onCreate(savedInstanceState);
-        LinearLayout activityLayout = new LinearLayout(this);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT);
-        activityLayout.setLayoutParams(lp);
-        activityLayout.setOrientation(LinearLayout.VERTICAL);
-        activityLayout.setPadding(16, 16, 16, 16);
+        setSupportActionBar(toolbar);
 
-        ViewGroup.LayoutParams tlp = new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
+        final TextView noGamesText = (TextView) findViewById(R.id.noGamesText);
+        mOutputText = (TextView) findViewById(R.id.mOutputText);
+        mNewGameButton = (FloatingActionButton) findViewById(R.id.newGameButton);
 
-        mCallApiButton = new Button(this);
-        mCallApiButton.setText(BUTTON_TEXT);
-        mCallApiButton.setOnClickListener(new View.OnClickListener() {
+        mNewGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                mCallApiButton.setEnabled(false);
+            public void onClick(View view) {
+                mNewGameButton.setEnabled(false);
                 mOutputText.setText("");
                 getResultsFromApi();
-                mCallApiButton.setEnabled(true);
+                mNewGameButton.setEnabled(true);
+
+                Intent intent = new Intent(MainActivity.this, CreateGame.class);
+                startActivityForResult(intent, 0);
+
+                noGamesText.setText("");
             }
         });
-        activityLayout.addView(mCallApiButton);
-
-        mOutputText = new TextView(this);
-        mOutputText.setLayoutParams(tlp);
-        mOutputText.setPadding(16, 16, 16, 16);
-        mOutputText.setVerticalScrollBarEnabled(true);
-        mOutputText.setMovementMethod(new ScrollingMovementMethod());
-        mOutputText.setText(
-                "Click the \'" + BUTTON_TEXT +"\' button to test the API.");
-        activityLayout.addView(mOutputText);
 
         mProgress = new ProgressDialog(this);
         mProgress.setMessage("Calling Google Sheets API ...");
 
-        setContentView(activityLayout);
+        //setContentView(activityLayout);
 
         // Initialize credentials and service object.
         mCredential = GoogleAccountCredential.usingOAuth2(
@@ -151,7 +128,6 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
         return super.onOptionsItemSelected(item);
     }
 
-
     /** THIS IS ALL FOR THE GOOGLESHEETS API **/
     /**
      * Attempt to call the API, after verifying that all the preconditions are
@@ -168,7 +144,7 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
         } else if (! isDeviceOnline()) {
             mOutputText.setText("No network connection available.");
         } else {
-            new MakeRequestTask(mCredential).execute();
+            new MainActivity.MakeRequestTask(mCredential).execute();
         }
     }
 
@@ -364,7 +340,7 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
             JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
             mService = new com.google.api.services.sheets.v4.Sheets.Builder(
                     transport, jsonFactory, credential)
-                    .setApplicationName("Google Sheets API Android Quickstart")
+                    .setApplicationName("School of Fish")
                     .build();
         }
 
@@ -390,17 +366,17 @@ public class MainActivity extends Activity implements EasyPermissions.Permission
          * @throws IOException
          */
         private List<String> getDataFromApi() throws IOException {
-            String spreadsheetId = "1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms";
-            String range = "Class Data!A2:E";
+            String spreadsheetId = "1h7XeOnC2ITdCYz921GWol7OZfNnUpAn0e1Dgl4ExzP0";
+            String range = "Primary Display!C3:C15";
             List<String> results = new ArrayList<String>();
             ValueRange response = this.mService.spreadsheets().values()
                     .get(spreadsheetId, range)
                     .execute();
             List<List<Object>> values = response.getValues();
             if (values != null) {
-                results.add("Name, Major");
+                results.add("NAMES OF PLAYERS");
                 for (List row : values) {
-                    results.add(row.get(0) + ", " + row.get(4));
+                    results.add(row.get(0) + "");
                 }
             }
             return results;
