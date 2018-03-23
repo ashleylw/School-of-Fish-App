@@ -38,6 +38,38 @@ public enum Role {
         return this.rank;
     }
 
+    public static Role getRoleForName(String name) {
+        switch (name) {
+            case "Orca":
+                return Role.ORCA;
+            case "Shark":
+                return Role.SHARK;
+            case "Polar Bear":
+                return Role.POLARBEAR;
+            case "Eel":
+                return Role.EEL;
+            case "Octopus":
+                return Role.OCTOPUS;
+            case "Sea Star":
+                return Role.SEASTAR;
+            case "Sea Horse":
+                return Role.SEAHORSE;
+            case "Sea Lion":
+                return Role.SEALION;
+            case "Sea Urchin":
+                return Role.SEAURCHIN;
+            case "Fugu":
+                return Role.FUGU;
+            case "Crab":
+                return Role.CRAB;
+            case "Remora":
+                return Role.REMORA;
+            case "Turtle":
+                return Role.TURTLE;
+            default: return null;
+        }
+    }
+
     /**
      * Returns a boolean determining if the role's win condition
      * has been met. Needs to access a global list of players.

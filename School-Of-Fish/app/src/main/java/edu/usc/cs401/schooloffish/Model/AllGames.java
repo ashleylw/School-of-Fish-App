@@ -8,16 +8,17 @@ import java.util.ArrayList;
 
 public class AllGames {
 
-    String name;
-    ArrayList<Game> allGames;
+    private static ArrayList<Game> allGames = new ArrayList<>();
 
-    private static final AllGames ourInstance = new AllGames("School of Fish");
+    private static class Loader {
+        static volatile AllGames INSTANCE = new AllGames();
+    }
 
-    public static AllGames getInstance() { return ourInstance; }
+    public static synchronized AllGames getInstance() {
+        return Loader.INSTANCE;
+    }
 
-    public AllGames(String name) {
-        this.name = name;
-        allGames = new ArrayList<Game>();
+    private AllGames() {
     }
 
     public void addGame(Game g) {

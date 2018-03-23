@@ -1,6 +1,9 @@
 package edu.usc.cs401.schooloffish.Controller;
 
+import android.support.v4.app.DialogFragment;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -9,6 +12,7 @@ import android.widget.NumberPicker;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.model.Spreadsheet;
 
+import edu.usc.cs401.schooloffish.Controller.Fragments.PlayerRoster;
 import edu.usc.cs401.schooloffish.Model.AllGames;
 import edu.usc.cs401.schooloffish.Model.BigFish;
 import edu.usc.cs401.schooloffish.Model.Game;
@@ -22,7 +26,7 @@ public class CreateGame extends AppCompatActivity {
 
     private AllGames allGames = AllGames.getInstance();
 
-    private Spreadsheet newGameSheet;
+    private String newGameSheetID;
     private Sheets sheetsService;
 
     private EditText gameNameEntry;
@@ -60,14 +64,29 @@ public class CreateGame extends AppCompatActivity {
                     // disable button briefly
                     createGameButton.setEnabled(false);
 
+                    newGameSheetID = "1h7XeOnC2ITdCYz921GWol7OZfNnUpAn0e1Dgl4ExzP0";
+
                     // create and initialize new Game object
                     Game newGame = new Game(gameNameEntry.getText().toString(), new BigFish(bigFishNameEntry.getText().toString()),
-                            numRounds.getValue(), newGameSheet);
+                            numRounds.getValue(), newGameSheetID);
 
-                    // add Game to list and return to list of games screen for now
+                    // TODO: TEMPORARY ADD GIVEN PLAYERS
+                    //newGame.readPlayers();
+
+                    // add Game to list
                     allGames.addGame(newGame);
                     createGameButton.setEnabled(true);
-                    finish();
+
+                    // return to list of games screen for now
+                    // finish();
+
+                    FragmentManager fm = getSupportFragmentManager();
+                    LoadingDialog dialogFragment = new LoadingDialog ();
+                    dialogFragment.show(fm, "Sample Fragment");
+
+                    // go to big fish game screen for now
+                    Intent myIntent = new Intent(CreateGame.this, BigFishMain.class);
+                    CreateGame.this.startActivity(myIntent);
 
                 }
             }
@@ -94,4 +113,9 @@ public class CreateGame extends AppCompatActivity {
         preroundLengthSecs.setMaxValue(59);
 
     }
+
+    private void addPlayers(Game game) {
+
+    }
+
 }

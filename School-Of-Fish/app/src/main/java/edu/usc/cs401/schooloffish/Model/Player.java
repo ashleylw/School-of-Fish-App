@@ -37,9 +37,23 @@ public class Player {
      * Player Constructor
      * @param name of the player
      */
-    public Player(String name) {
+    public Player(String name, Role role) {
         this.name = name;
+        this.role = role;
+    }
 
+    /**
+     * @return this player's Name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @param name to set for player
+     */
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**
