@@ -29,6 +29,22 @@ public enum Habitat {
         this.players = new ArrayList<Player>();
     }
 
+    public static Habitat getHabitatForName(String name) {
+        switch (name) {
+            case "Ocean":
+                return Habitat.OCEAN;
+            case "Reef":
+                return Habitat.REEF;
+            case "Island":
+                return Habitat.ISLAND;
+            case "Kelp Forest":
+                return Habitat.KELPFOREST;
+            case "Grave":
+                return Habitat.GRAVE;
+            default: return null;
+        }
+    }
+
     public String getName() {
         return this.name;
     }

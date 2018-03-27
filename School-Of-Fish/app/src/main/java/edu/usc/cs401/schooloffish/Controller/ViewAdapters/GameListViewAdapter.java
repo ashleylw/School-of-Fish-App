@@ -1,53 +1,82 @@
 package edu.usc.cs401.schooloffish.Controller.ViewAdapters;
 
 import android.app.Activity;
+import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import edu.usc.cs401.schooloffish.Model.AllGames;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import edu.usc.cs401.schooloffish.Model.Game;
 import edu.usc.cs401.schooloffish.R;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by Ashley Walker on 2/17/2018.
  */
 
-public class GameListViewAdapter extends ArrayAdapter<Game> {
+public class GameListViewAdapter extends ArrayAdapter {
 
-    private AllGames allGames = AllGames.getInstance();
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+    private Context mContext;
+    private int id;
+    List<Game> allGames;
     private View view;
+    private ViewGroup parent;
     private Game game;
 
-    public GameListViewAdapter(Activity activity, int id){
-        super(activity, 0);
+    public GameListViewAdapter(Context context, int id, List<Game> allGames){
+        super(context, id, allGames);
+        this.mContext = context;
+        this.id = id;
+        this.allGames = allGames;
     }
 
     public View getView(final int position, View convertView, ViewGroup parent) {
         view = convertView;
-        // Get the data item for this position
-        game = allGames.getList().get(position);
+        this.parent = parent;
 
-        // Check if an existing view is being reused, otherwise inflate the view
-        ViewHolder viewHolder = null; // view lookup cache stored in tag
-        //create new row view if null
-        if (view == null) {
-            // If there's no view to re-use, inflate a brand new view for row
-            LayoutInflater inflater = LayoutInflater.from(getContext());
-            view = inflater.inflate(R.layout.game_list_item, parent, false);
+        ViewHolder viewHolder = null;
+        if(view == null){
+            LayoutInflater vi = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            view = vi.inflate(id, null);
             viewHolder = new ViewHolder(view);
+
+            System.err.println("***\n\n\nHERE\n\n\n*******");
+
             // Cache the viewHolder object inside the fresh view
             view.setTag(viewHolder);
         } else {
             // View is being recycled, retrieve the viewHolder object from tag
             viewHolder = (ViewHolder) view.getTag();
         }
+
+        // Get the data item for this position
+        game = allGames.get(position);
+
         // Populate the data from the data object via the viewHolder object
         // into the template view.
-        viewHolder.gameName.setText(game.getName());
-        viewHolder.bigFishName.setText("Big Fish: " + game.getBigFish().getName());
+        if (game != null) {
+            viewHolder.gameName.setText(game.getName());
+            if (game.getBigFish() != null) {
+                viewHolder.bigFishName.setText("Big Fish: " + game.getBigFish().getName());
+            }
+        }
 
         // Return the completed view to render on screen
         return view;

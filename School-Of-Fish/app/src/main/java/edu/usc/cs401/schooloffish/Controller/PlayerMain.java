@@ -9,10 +9,10 @@ import android.support.v7.app.AppCompatActivity;
 import edu.usc.cs401.schooloffish.R;
 
 /**
- * Created by Ashley Walker on 3/22/2018.
+ * Created by Ashley Walker on 3/24/2018.
  */
 
-public class BigFishMain extends AppCompatActivity {
+public class PlayerMain extends AppCompatActivity {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -22,10 +22,10 @@ public class BigFishMain extends AppCompatActivity {
     @Override
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.big_fish_main);
+        setContentView(R.layout.player_main);
 
-        tabLayout = (TabLayout) findViewById(R.id.tabLayoutBF);
-        viewPager = (ViewPager) findViewById(R.id.viewPagerBF);
+        tabLayout = (TabLayout) findViewById(R.id.tabLayoutPL);
+        viewPager = (ViewPager) findViewById(R.id.viewPagerPL);
 
         Intent intent = getIntent();
         gameID = intent.getExtras().getString("GameID");
@@ -37,6 +37,5 @@ public class BigFishMain extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
     }
-
 
 }

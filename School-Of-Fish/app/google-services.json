@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "512466518466",
+    "firebase_url": "https://original-mason-196603.firebaseio.com",
+    "project_id": "original-mason-196603",
+    "storage_bucket": "original-mason-196603.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:512466518466:android:0e852ff2e8f798c8",
+        "android_client_info": {
+          "package_name": "edu.usc.cs401.schooloffish"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "512466518466-rlro07d9d7oi9ujtieqadiolrq4mp2mv.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "512466518466-93brs5lp54he0t2elvbrj2078636enf5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "edu.usc.cs401.schooloffish",
+            "certificate_hash": "bdb2469006286007ea41020d157a66116d380c1a"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGGCuvEWtlE5Oa87nVbeQ1tpyrxGP5tdI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "512466518466-rlro07d9d7oi9ujtieqadiolrq4mp2mv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

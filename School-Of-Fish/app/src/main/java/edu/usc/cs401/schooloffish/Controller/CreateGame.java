@@ -1,19 +1,13 @@
 package edu.usc.cs401.schooloffish.Controller;
 
-import android.support.v4.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
-import com.google.api.services.sheets.v4.Sheets;
-import com.google.api.services.sheets.v4.model.Spreadsheet;
 
-import edu.usc.cs401.schooloffish.Controller.Fragments.PlayerRoster;
-import edu.usc.cs401.schooloffish.Model.AllGames;
 import edu.usc.cs401.schooloffish.Model.BigFish;
 import edu.usc.cs401.schooloffish.Model.Game;
 import edu.usc.cs401.schooloffish.R;
@@ -24,18 +18,13 @@ import edu.usc.cs401.schooloffish.R;
 
 public class CreateGame extends AppCompatActivity {
 
-    private AllGames allGames = AllGames.getInstance();
-
-    private String newGameSheetID;
-    private Sheets sheetsService;
-
     private EditText gameNameEntry;
     private EditText bigFishNameEntry;
     private NumberPicker numRounds;
     private NumberPicker roundLengthMins;
     private NumberPicker roundLengthSecs;
-    private NumberPicker preroundLengthMins;
-    private NumberPicker preroundLengthSecs;
+    private NumberPicker preRoundLengthMins;
+    private NumberPicker preRoundLengthSecs;
 
     private Button createGameButton;
 
@@ -52,8 +41,8 @@ public class CreateGame extends AppCompatActivity {
         numRounds = (NumberPicker) findViewById(R.id.num_rounds_picker);
         roundLengthMins = (NumberPicker) findViewById(R.id.round_length_mins);
         roundLengthSecs = (NumberPicker) findViewById(R.id.round_length_secs);
-        preroundLengthMins = (NumberPicker) findViewById(R.id.preround_length_mins);
-        preroundLengthSecs = (NumberPicker) findViewById(R.id.preround_length_secs);
+        preRoundLengthMins = (NumberPicker) findViewById(R.id.preround_length_mins);
+        preRoundLengthSecs = (NumberPicker) findViewById(R.id.preround_length_secs);
 
         createGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,28 +53,18 @@ public class CreateGame extends AppCompatActivity {
                     // disable button briefly
                     createGameButton.setEnabled(false);
 
-                    newGameSheetID = "1h7XeOnC2ITdCYz921GWol7OZfNnUpAn0e1Dgl4ExzP0";
+                    double roundLength = (double)roundLengthMins.getValue() + (double)roundLengthSecs.getValue()/60;
+                    double preRoundLength = (double)preRoundLengthMins.getValue() + (double)preRoundLengthSecs.getValue()/60;
 
                     // create and initialize new Game object
                     Game newGame = new Game(gameNameEntry.getText().toString(), new BigFish(bigFishNameEntry.getText().toString()),
-                            numRounds.getValue(), newGameSheetID);
+                            numRounds.getValue(), roundLength, preRoundLength );
 
-                    // TODO: TEMPORARY ADD GIVEN PLAYERS
-                    //newGame.readPlayers();
-
-                    // add Game to list
-                    allGames.addGame(newGame);
                     createGameButton.setEnabled(true);
-
-                    // return to list of games screen for now
-                    // finish();
-
-                    FragmentManager fm = getSupportFragmentManager();
-                    LoadingDialog dialogFragment = new LoadingDialog ();
-                    dialogFragment.show(fm, "Sample Fragment");
 
                     // go to big fish game screen for now
                     Intent myIntent = new Intent(CreateGame.this, BigFishMain.class);
+                    myIntent.putExtra("GameID", newGame.getID());
                     CreateGame.this.startActivity(myIntent);
 
                 }
@@ -106,11 +85,11 @@ public class CreateGame extends AppCompatActivity {
         roundLengthSecs.setMinValue(0);
         roundLengthSecs.setMaxValue(59);
 
-        preroundLengthMins.setMinValue(1);
-        preroundLengthMins.setMaxValue(5);
+        preRoundLengthMins.setMinValue(1);
+        preRoundLengthMins.setMaxValue(5);
 
-        preroundLengthSecs.setMinValue(0);
-        preroundLengthSecs.setMaxValue(59);
+        preRoundLengthSecs.setMinValue(0);
+        preRoundLengthSecs.setMaxValue(59);
 
     }
 

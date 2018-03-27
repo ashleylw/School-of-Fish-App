@@ -1,5 +1,6 @@
 package edu.usc.cs401.schooloffish.Controller;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -23,10 +24,13 @@ public class GamePagerAdapter extends FragmentPagerAdapter {
     private int NUM_TABS = 3;
 
     private boolean bigFish;
+    private String gameID;
 
-    public GamePagerAdapter(final FragmentManager fragmentManager, boolean bigFish) {
+    public GamePagerAdapter(final FragmentManager fragmentManager, boolean bigFish, String gameID) {
         super(fragmentManager);
         this.bigFish = bigFish;
+        this.gameID = gameID;
+
         if (this.bigFish) NUM_TABS = 4;
     }
 
@@ -41,7 +45,11 @@ public class GamePagerAdapter extends FragmentPagerAdapter {
             case 2:
                 return new GameRules();
             case 3:
-                return new PlayerRoster();
+                PlayerRoster pr = new PlayerRoster();
+                Bundle myBundle = new Bundle();
+                myBundle .putString("GameID", gameID);
+                pr.setArguments(myBundle);
+                return pr;
         }
     }
 

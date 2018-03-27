@@ -1,5 +1,7 @@
 package edu.usc.cs401.schooloffish.Model;
 
+import java.util.Random;
+
 /**
  * Created by Ashley Walker on 2/17/2018.
  */
@@ -38,33 +40,72 @@ public enum Role {
         return this.rank;
     }
 
+    public Habitat getHome() { return this.home; }
+
     public static Role getRoleForName(String name) {
-        switch (name) {
-            case "Orca":
+        if (name != null) {
+            switch (name) {
+                case "Orca":
+                    return Role.ORCA;
+                case "Shark":
+                    return Role.SHARK;
+                case "Polar Bear":
+                    return Role.POLARBEAR;
+                case "Eel":
+                    return Role.EEL;
+                case "Octopus":
+                    return Role.OCTOPUS;
+                case "Sea Star":
+                    return Role.SEASTAR;
+                case "Sea Horse":
+                    return Role.SEAHORSE;
+                case "Sea Lion":
+                    return Role.SEALION;
+                case "Sea Urchin":
+                    return Role.SEAURCHIN;
+                case "Fugu":
+                    return Role.FUGU;
+                case "Crab":
+                    return Role.CRAB;
+                case "Remora":
+                    return Role.REMORA;
+                case "Turtle":
+                    return Role.TURTLE;
+                default: return null;
+            }
+        } else return null;
+    }
+
+    public static Role getRandomRole() {
+        Random rand = new Random();
+        int i = rand.nextInt(13);
+
+        switch (i) {
+            case 0:
                 return Role.ORCA;
-            case "Shark":
+            case 1:
                 return Role.SHARK;
-            case "Polar Bear":
+            case 2:
                 return Role.POLARBEAR;
-            case "Eel":
+            case 3:
                 return Role.EEL;
-            case "Octopus":
+            case 4:
                 return Role.OCTOPUS;
-            case "Sea Star":
+            case 5:
                 return Role.SEASTAR;
-            case "Sea Horse":
+            case 6:
                 return Role.SEAHORSE;
-            case "Sea Lion":
+            case 7:
                 return Role.SEALION;
-            case "Sea Urchin":
+            case 8:
                 return Role.SEAURCHIN;
-            case "Fugu":
+            case 9:
                 return Role.FUGU;
-            case "Crab":
+            case 10:
                 return Role.CRAB;
-            case "Remora":
+            case 11:
                 return Role.REMORA;
-            case "Turtle":
+            case 12:
                 return Role.TURTLE;
             default: return null;
         }

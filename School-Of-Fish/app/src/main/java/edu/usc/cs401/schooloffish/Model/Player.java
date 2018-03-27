@@ -1,21 +1,36 @@
 package edu.usc.cs401.schooloffish.Model;
 
+import android.util.Log;
+import android.widget.ProgressBar;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.Map;
+import java.util.UUID;
+
+import static android.content.ContentValues.TAG;
+
 /**
  * Created by Ashley Walker on 2/17/2018.
  */
 
-public class Player {
+public class Player extends NamedObject{
 
-    // Player Attributes
-    private String name;
-    private boolean aliveStatus;
+    private static final long serialVersionUID = 2L;
+
     private Role role;
-    private Habitat currentLocation;
+    private boolean aliveStatus;
+    private Habitat currentHabitat;
+    private Habitat previousHabitat;
 
     // Every player can peek at the role of another player.
     // If a player's role is the CRAB, REMORA, or TURTLE, they can peek at two players
-    private Player peekOne;
-    private Player peekTwo;
+    private String peekOne;
+    private String peekTwo;
 
     // If the player is the turtle, we need to keep track of who they guessed would win
     private Role guess;
@@ -38,22 +53,145 @@ public class Player {
      * @param name of the player
      */
     public Player(String name, Role role) {
-        this.name = name;
+        super(name);
         this.role = role;
+
+        aliveStatus = true;
+        currentHabitat = role.getHome();
+        previousHabitat = role.getHome();
+
+        peekOne = null;
+        peekTwo = null;
+
+        guess = null;
+        disguise = null;
+        updateFirebase(null);
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+        DatabaseReference myRef = database.getReference()
+                .child("players").child(this.getID());
+
+        // Reading from the database
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String name = dataSnapshot.child("name").getValue(String.class);
+                Player.this.setName(name);
+
+                String role = dataSnapshot.child("role").getValue(String.class);
+                Player.this.role = Role.getRoleForName(role);
+
+                boolean aliveStatus = dataSnapshot.child("aliveStatus").getValue(boolean.class);
+                Player.this.aliveStatus = aliveStatus;
+
+                String currentHabitat = dataSnapshot.child("currentHabitat").getValue(String.class);
+                Player.this.currentHabitat = Habitat.getHabitatForName(currentHabitat);
+
+                String previousHabitat = dataSnapshot.child("previousHabitat").getValue(String.class);
+                Player.this.previousHabitat = Habitat.getHabitatForName(previousHabitat);
+
+                String peekOne = dataSnapshot.child("peekOne").getValue(String.class);
+                Player.this.peekOne = peekOne;
+
+                String peekTwo = dataSnapshot.child("peekTwo").getValue(String.class);
+                Player.this.peekTwo = peekTwo;
+
+                String guess = dataSnapshot.child("guess").getValue(String.class);
+                Player.this.guess = Role.getRoleForName(guess);
+
+                String disguise = dataSnapshot.child("disguise").getValue(String.class);
+                Player.this.disguise = Role.getRoleForName(disguise);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
     }
 
-    /**
-     * @return this player's Name
-     */
-    public String getName() {
-        return name;
+    public Player(String id) {
+        super("", id);
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+        DatabaseReference myRef = database.getReference()
+                .child("players").child(id);
+
+        if (myRef != null) {
+            this.setID(id);
+        } else {
+            // already unique id
+        }
+
+        // Reading from the database
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String name = dataSnapshot.child("name").getValue(String.class);
+                Player.this.setName(name);
+
+                String role = dataSnapshot.child("role").getValue(String.class);
+                Player.this.role = Role.getRoleForName(role);
+
+                boolean aliveStatus = dataSnapshot.child("aliveStatus").getValue(boolean.class);
+                Player.this.aliveStatus = aliveStatus;
+
+                String currentHabitat = dataSnapshot.child("currentHabitat").getValue(String.class);
+                Player.this.currentHabitat = Habitat.getHabitatForName(currentHabitat);
+
+                String previousHabitat = dataSnapshot.child("previousHabitat").getValue(String.class);
+                Player.this.previousHabitat = Habitat.getHabitatForName(previousHabitat);
+
+                String peekOne = dataSnapshot.child("peekOne").getValue(String.class);
+                Player.this.peekOne = peekOne;
+
+                String peekTwo = dataSnapshot.child("peekTwo").getValue(String.class);
+                Player.this.peekTwo = peekTwo;
+
+                String guess = dataSnapshot.child("guess").getValue(String.class);
+                Player.this.guess = Role.getRoleForName(guess);
+
+                String disguise = dataSnapshot.child("disguise").getValue(String.class);
+                Player.this.disguise = Role.getRoleForName(disguise);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+    }
+
+
+    public void updateFirebase(DatabaseReference myRef) {
+        if (myRef == null) {
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            myRef = database.getReference()
+                    .child("players").child(this.getID());
+        }
+
+        myRef.child("name").setValue(this.getName());
+        myRef.child("role").setValue(this.role.getName());
+        myRef.child("aliveStatus").setValue(this.aliveStatus);
+        myRef.child("currentHabitat").setValue(this.currentHabitat);
+        myRef.child("previousHabitat").setValue(this.previousHabitat);
+
+        myRef.child("peekOne").setValue(this.peekOne);
+        myRef.child("peekTwo").setValue(this.peekTwo);
+        myRef.child("guess").setValue(this.guess);
+        myRef.child("disguise").setValue(this.disguise);
     }
 
     /**
      * @param name to set for player
      */
     public void setName(String name) {
-        this.name = name;
+        super.setName(name);
+        updateFirebase(null);
     }
 
     /**
@@ -68,6 +206,25 @@ public class Player {
      */
     public void setRole(Role role) {
         this.role = role;
+        updateFirebase(null);
+    }
+
+    public Habitat getCurrentHabitat() {
+        return currentHabitat;
+    }
+
+    public void setCurrentHabitat(Habitat currentHabitat) {
+        this.currentHabitat = currentHabitat;
+        updateFirebase(null);
+    }
+
+    public Habitat getPreviousHabitat() {
+        return previousHabitat;
+    }
+
+    public void setPreviousHabitat(Habitat previousHabitat) {
+        this.previousHabitat = previousHabitat;
+        updateFirebase(null);
     }
 
     /**
@@ -84,21 +241,22 @@ public class Player {
     /**
      * @return player's (first) peek
      */
-    public Player getPeekOne() {
+    public String getPeekOne() {
         return peekOne;
     }
 
     /**
      * @param peekOne Player to peek and set as peekOne
      */
-    public void setPeekOne(Player peekOne) {
+    public void setPeekOne(String peekOne) {
         this.peekOne = peekOne;
+        updateFirebase(null);
     }
 
     /**
      * @return peekTwo IF the player's Role is CRAB, REMORA, or TURTLE
      */
-    public Player getPeekTwo() {
+    public String getPeekTwo() {
         if (this.role == Role.CRAB || this.role == Role.REMORA || this.role == Role.TURTLE) {
             return peekTwo;
         } else return null;
@@ -107,8 +265,9 @@ public class Player {
     /**
      * @param peekTwo Player to peek and set as peekTwo (for CRAB, REMORA, and TURTLE only)
      */
-    public void setPeekTwo(Player peekTwo) {
+    public void setPeekTwo(String peekTwo) {
         this.peekTwo = peekTwo;
+        updateFirebase(null);
     }
 
     /**
@@ -133,8 +292,7 @@ public class Player {
      * @return boolean if aliveStatus is true or not
      */
     public boolean isAlive() {
-        // TODO
-        return false;
+        return aliveStatus;
     }
 
     /**

@@ -8,11 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import edu.usc.cs401.schooloffish.Model.AllGames;
-import edu.usc.cs401.schooloffish.Model.Game;
 import edu.usc.cs401.schooloffish.Model.Player;
 import edu.usc.cs401.schooloffish.R;
 
@@ -22,7 +19,6 @@ import edu.usc.cs401.schooloffish.R;
 
 public class PlayerRosterViewAdapter extends ArrayAdapter<Player> {
 
-    private AllGames allGames = AllGames.getInstance();
     private View view;
     private Player player;
     private List<Player> players;
@@ -44,9 +40,6 @@ public class PlayerRosterViewAdapter extends ArrayAdapter<Player> {
 
     public View getView(final int position, View convertView, ViewGroup parent) {
         view = convertView;
-
-        // Get the data item for this position - CURRENTLY GETS FIRST GAME
-        allGames = AllGames.getInstance();
 
         player = players.get(position);
 

@@ -3,6 +3,7 @@ package edu.usc.cs401.schooloffish.Controller;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,19 +11,37 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import edu.usc.cs401.schooloffish.Controller.ViewAdapters.GameListViewAdapter;
-import edu.usc.cs401.schooloffish.Model.AllGames;
+import edu.usc.cs401.schooloffish.Model.Game;
 import edu.usc.cs401.schooloffish.R;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by Ashley Walker on 2/17/2018.
  */
 
 public class GameList extends Fragment {
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+
     public static GameList gameList = null;
 
-    private AllGames allGames = AllGames.getInstance();
-
+    List<Game> allGames;
+    TextView noGamesText;
     public ListView listView;
     private GameListViewAdapter gameListViewAdapter;
 
@@ -45,15 +64,17 @@ public class GameList extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.game_list, container, false);
 
-        TextView noGamesText = v.findViewById(R.id.noGamesText);
-        if (allGames.size() > 0) {
-            noGamesText.setText("");
-        } else noGamesText.setText("No Pending Games");
+        DatabaseReference myRef = database.getReference()
+                .child("games");
+
+        allGames = new ArrayList<>();
+        noGamesText = v.findViewById(R.id.noGamesText);
+
 
         // call the views with this layout
         listView = (ListView) v.findViewById(R.id.gameListView);
 
-        gameListViewAdapter = new GameListViewAdapter(getActivity(), 0);
+        gameListViewAdapter = new GameListViewAdapter(getActivity(), R.layout.game_list_item, allGames);
         listView.setAdapter(gameListViewAdapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -61,12 +82,35 @@ public class GameList extends Fragment {
             public void onItemClick(AdapterView<?> a, View v, int position,
                                     long id) {
                 // TODO: Have user prompted if they would like to join game
-
-                /*
-                Intent intent = new Intent(getActivity(), JoinGameInterfaceController.class);
-                intent.putExtra("PROFILE", (Serializable) profiles.get(position));
+                Intent intent = new Intent(getActivity(), PendingGameInfo.class);
+                intent.putExtra("Pending Game", (Serializable) allGames.get(position));
                 startActivityForResult(intent, 0);
-                */
+            }
+        });
+
+        // Read from the database
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                GenericTypeIndicator<Map<String, Object>> genericTypeIndicator = new GenericTypeIndicator<Map<String, Object>>() {};
+                Map<String, Object> games = dataSnapshot.getValue(genericTypeIndicator);
+
+                allGames.clear();
+                for (String id : games.keySet()) {
+                    allGames.add(new Game(id));
+                }
+                if (allGames.size() > 0) {
+                    noGamesText.setText("");
+                } else noGamesText.setText("No Pending Games");
+
+                gameListViewAdapter.notifyDataSetChanged();
+                //listView.setAdapter(gameListViewAdapter);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
             }
         });
 

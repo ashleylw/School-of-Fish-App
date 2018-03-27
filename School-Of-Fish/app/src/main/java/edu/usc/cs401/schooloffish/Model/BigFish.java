@@ -4,16 +4,16 @@ package edu.usc.cs401.schooloffish.Model;
  * Created by Ashley Walker on 2/17/2018.
  */
 
-public class BigFish {
+public class BigFish extends NamedObject {
 
-    String name;
+    private static final long serialVersionUID = 2L;
+
+    private String name;
+
+    public BigFish() { super(""); }
 
     public BigFish(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return this.name;
+        super(name);
     }
 
 }
