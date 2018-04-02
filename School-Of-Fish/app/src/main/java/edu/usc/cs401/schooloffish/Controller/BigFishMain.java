@@ -14,9 +14,6 @@ import edu.usc.cs401.schooloffish.R;
 
 public class BigFishMain extends AppCompatActivity {
 
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
-
     private String gameID;
 
     @Override
@@ -24,18 +21,8 @@ public class BigFishMain extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.big_fish_main);
 
-        tabLayout = (TabLayout) findViewById(R.id.tabLayoutBF);
-        viewPager = (ViewPager) findViewById(R.id.viewPagerBF);
-
         Intent intent = getIntent();
         gameID = intent.getExtras().getString("GameID");
-
-        final GamePagerAdapter gamePagerAdapter =
-                new GamePagerAdapter(getSupportFragmentManager(), true, gameID);
-        viewPager.setAdapter(gamePagerAdapter);
-
-        tabLayout.setupWithViewPager(viewPager);
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
     }
 
 
