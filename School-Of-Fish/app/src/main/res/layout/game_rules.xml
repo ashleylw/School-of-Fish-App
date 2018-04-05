@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="10dp"
         android:layout_weight="1"
-        android:text="Each game is led by a Big fish,who oversees rules enforcment with other members of the school !" />
+        android:text="Each game is led by a Big fish,who oversees rules   enforcment with other members of the school !" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="10dp"
