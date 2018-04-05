@@ -99,7 +99,9 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.game_rules_item) {
+            Intent intent = new Intent(MainActivity.this, GameRules.class);
+            startActivityForResult(intent, 0);
             return true;
         }
 

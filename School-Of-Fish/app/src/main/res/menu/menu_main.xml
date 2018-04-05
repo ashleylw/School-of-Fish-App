@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="edu.usc.cs401.schooloffish.Controller.MainActivity">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/game_rules_item"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:title="Game Rules"
         app:showAsAction="never" />
 </menu>

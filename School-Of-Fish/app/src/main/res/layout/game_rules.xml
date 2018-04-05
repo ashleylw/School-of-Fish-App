@@ -1,12 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
+    android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
         android:layout_weight="1"
-        android:text="Hi!" />
+        android:text=" Instructions (to be edited)"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_weight="1"
+        android:text="Each game is led by a Big fish,who oversees rules enforcment with other members of the school !" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_weight="1"
+        android:text=" there are 13 animals in this game" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_weight="1"
+        android:text=" After all roles are assigned , but before play commences ,each player is given the oppertunity to name another giplayer and take a secret look at that player`s role" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_weight="1"
+        android:text=" Each animal has a role -specific win condition.The object of the game is to acheive your animal`s win condition over four timed rounds" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_weight="1"
+        android:text=" The play arear is divided into four zones:Ocen,Reef,island, and kelp Forest.Each round begins with players selecting a zone to visit" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_weight="1"
+        android:text="Each animal has a home habitat.If youspend a round away from your home habitat, you Must go to your home habitat in the following round.Otherwise ,you die." />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_weight="1"
+        android:text="Once the round begins ,higher level animals can attack(and eat) lower level animals in the same zone" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_weight="1"
+        android:text="Attacks are carried out by placing a Bite sticker on the shoulder of another player. This is NOT a combat game: force, running,dodging,fighting,etc., are not allowed" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_weight="1"
+        android:text=" If the attacking animal is on the same level or lower level as the target of the atatck, nothing happens." />
+
+
+
+
+
+
 </LinearLayout>
