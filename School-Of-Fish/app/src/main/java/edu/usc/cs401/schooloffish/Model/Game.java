@@ -31,6 +31,8 @@ public class Game extends NamedObject {
     private double preRoundLength;
 
 
+
+
     public Game(String name, BigFish bigFish, int numRounds, double roundLength, double preRoundLength) {
         super(name);
         this.bigFish = bigFish;
@@ -155,6 +157,21 @@ public class Game extends NamedObject {
             myRef.child("players").child(id).setValue(id);
         }
     }
+
+    public void removePlayer(Role r) {
+        for(int i = 0; i < players.size(); i++) {
+            if(players.get(i).getRole() == r) {
+                players.remove(i);
+            }
+        }
+    }
+
+    public boolean checkSeaUnity() {
+        //get all alive sea animals
+        //List<String> players
+        //check that their habitats match
+    }
+
 
     public BigFish getBigFish() {
         return this.bigFish;

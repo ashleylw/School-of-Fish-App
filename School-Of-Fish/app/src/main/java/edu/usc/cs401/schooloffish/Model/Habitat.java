@@ -16,6 +16,7 @@ public enum Habitat {
     GRAVE("Grave");
 
     /**
+     *
      * The Ocean, Reef, Island, and Kelp Forest are all playable habitats.
      * The Grave is the location all dead players reside. They cannot move
      * from the Grave and alive players cannot move to the Grave.

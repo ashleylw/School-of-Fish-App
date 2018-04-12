@@ -26,11 +26,14 @@ public class Player extends NamedObject{
     private boolean aliveStatus;
     private Habitat currentHabitat;
     private Habitat previousHabitat;
+    private Game game;
 
     // Every player can peek at the role of another player.
     // If a player's role is the CRAB, REMORA, or TURTLE, they can peek at two players
     private String peekOne;
     private String peekTwo;
+    private int mustEat;
+    private int eatLimit;
 
     // If the player is the turtle, we need to keep track of who they guessed would win
     private Role guess;
@@ -52,16 +55,24 @@ public class Player extends NamedObject{
      * Player Constructor
      * @param name of the player
      */
-    public Player(String name, Role role) {
+    public Player(String name, Role role, Game g) {
         super(name);
         this.role = role;
 
         aliveStatus = true;
         currentHabitat = role.getHome();
         previousHabitat = role.getHome();
-
+        game = g;
         peekOne = null;
         peekTwo = null;
+        if(role.getRank() ==1) {
+            eatLimit = 1;
+        } else if(role.getRank() == 2 || role.getRank() == 3) {
+            eatLimit = 2;
+        } else if(role.getRank() == 4) {
+            eatLimit = 3;
+        }
+        mustEat = eatLimit;
 
         guess = null;
         disguise = null;
@@ -169,7 +180,7 @@ public class Player extends NamedObject{
 
     public void updateFirebase(DatabaseReference myRef) {
         if (myRef == null) {
-            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            FirebaseDatabase   database = FirebaseDatabase.getInstance();
             myRef = database.getReference()
                     .child("players").child(this.getID());
         }
@@ -284,6 +295,12 @@ public class Player extends NamedObject{
      */
     public boolean Bite(Player p) {
         // TODO - check if Player p can be bitten by this
+        Role r = p.getRole();
+        if(r == Role.FUGU) {
+            setDead();
+            return false;
+        }
+
         return false;
     }
 
@@ -292,6 +309,8 @@ public class Player extends NamedObject{
      * @return boolean if aliveStatus is true or not
      */
     public boolean isAlive() {
+
+
         return aliveStatus;
     }
 
@@ -308,6 +327,8 @@ public class Player extends NamedObject{
      */
     public void setDead() {
         // TODO
+        game.removePlayer(role);
+        aliveStatus = false;
     }
 
     /**
@@ -316,6 +337,8 @@ public class Player extends NamedObject{
      */
     public void Move(Habitat h) {
         // TODO
+        previousHabitat = currentHabitat;
+        currentHabitat = h;
     }
 
     /**
