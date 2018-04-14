@@ -8,7 +8,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:background="@android:color/darker_gray"
+            android:padding="10dp">
 
             <TextView
                 android:id="@+id/textView2"
@@ -16,80 +18,108 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="@string/instructions"
+                android:textSize="30sp"
+                android:layout_marginTop="20dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="@string/there_are_13_animals_in_this_game" />
+                android:layout_marginTop="20dp"
+                android:text="@string/there_are_13_animals_in_this_game"
+                android:textSize="20sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:textSize="20sp"
+                android:layout_marginTop="20dp"
                 android:text="@string/after_all_roles_are_assigned_but_before_play_commences_each_player_is_given_the_oppertunity_to_name_another_giplayer_and_take_a_secret_look_at_that_player_s_role" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:textSize="20sp"
+                android:layout_marginTop="20dp"
                 android:text="@string/each_animal_has_a_role_specific_win_condition_the_object_of_the_game_is_to_acheive_your_animal_s_win_condition_over_four_timed_rounds" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:textSize="20sp"
+                android:layout_marginTop="20dp"
                 android:text="@string/the_play_arear_is_divided_into_four_zones_ocen_reef_island_and_kelp_forest_each_round_begins_with_players_selecting_a_zone_to_visit" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:textSize="20sp"
+                android:layout_marginTop="20dp"
                 android:text="@string/each_animal_has_a_home_habitat_if_youspend_a_round_away_from_your_home_habitat_you_must_go_to_your_home_habitat_in_the_following_round_otherwise_you_die" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:textSize="20sp"
+                android:layout_marginTop="20dp"
                 android:text="@string/attacks_are_carried_out_by_placing_a_bite_sticker_on_the_shoulder_of_another_player_this_is_not_a_combat_game_force_running_dodging_fighting_etc_are_not_allowed" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:textSize="20sp"
+                android:layout_marginTop="20dp"
                 android:text="@string/if_the_attacking_animal_is_on_the_same_level_or_lower_level_as_the_target_of_the_atatck_nothing_happens" />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:textSize="20sp"
+                android:layout_marginTop="20dp"
                 android:text="@string/each_game_is_led_by_a_big_fish_who_oversees_rules_enforcment_with_other_members_of_the_school" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:textSize="20sp"
+                android:layout_marginTop="20dp"
                 android:text="@string/once_the_round_begins_higher_level_animals_can_attack_and_eat_lower_level_animals_in_the_same_zone" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:textSize="20sp"
+                android:layout_marginTop="20dp"
                 android:text="@string/if_the_attack_is_successful_the_eaten_player_must_leve_the_main_play_area_remember_you_might_be_eathen_and_still_be_able_to_acheive_your_win_condition" />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:textSize="20sp"
+                android:layout_marginTop="20dp"
                 android:text="@string/if_a_player_is_eaten_that_player_s_name_but_not_the_player_s_role_is_revealed_to_players_in_the_other_zones"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:textSize="20sp"
+                android:layout_marginTop="20dp"
                 android:text="@string/before_round_1_and_after_rounds_1_2_and_3_you_may_move_freely_stratgize_with_other_players_in_the_other_zones"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:textSize="20sp"
+                android:layout_marginTop="20dp"
                 android:text="@string/after_the_end_of_round_4_the_finla_round_winners_i_e_all_players_who_met_their_win_condition_will_be_announced_and_applauded"/>
         </LinearLayout>
     </ScrollView>
