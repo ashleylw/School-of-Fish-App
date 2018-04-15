@@ -99,4 +99,9 @@
     <string name="if_a_player_is_eaten_that_player_s_name_but_not_the_player_s_role_is_revealed_to_players_in_the_other_zones">If a player is eaten ,that player`s name -but not the player`s role -is revealed to players in the other zones.</string>
     <string name="before_round_1_and_after_rounds_1_2_and_3_you_may_move_freely_stratgize_with_other_players_in_the_other_zones">Before round 1 and after rounds 1,2 and 3,you may move freely ,strategize with other players in the other zones</string>
     <string name="after_the_end_of_round_4_the_finla_round_winners_i_e_all_players_who_met_their_win_condition_will_be_announced_and_applauded">After the end of round 4 (the final round) ,winners (i.e ,all players who met their win condition) will be announced and applauded.</string>
+    <string name="choose_your_habitat">Choose your habitat</string>
+    <string name="ocean">Ocean</string>
+    <string name="reef">Reef</string>
+    <string name="island">Island</string>
+    <string name="kelp_forest">Kelp Forest</string>
 </resources>
