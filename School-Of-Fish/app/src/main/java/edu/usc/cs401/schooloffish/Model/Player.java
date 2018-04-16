@@ -187,14 +187,6 @@ public class Player extends NamedObject{
     }
 
     /**
-     * @param name to set for player
-     */
-    public void setName(String name) {
-        super.setName(name);
-        updateFirebase(null);
-    }
-
-    /**
      * @return this player's Role
      */
     public Role getRole() {

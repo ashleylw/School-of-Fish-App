@@ -30,6 +30,7 @@ public enum Habitat {
     }
 
     public static Habitat getHabitatForName(String name) {
+        if (name == null) return null;
         switch (name) {
             case "Ocean":
                 return Habitat.OCEAN;

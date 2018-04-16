@@ -27,16 +27,19 @@ public class Game extends NamedObject {
     private List<String> players;
 
     private int numRounds;
-    private double roundLength;
-    private double preRoundLength;
+    private int roundLength;
+    private int preRoundLength;
+
+    private int timeLeft;
 
 
-    public Game(String name, BigFish bigFish, int numRounds, double roundLength, double preRoundLength) {
+    public Game(String name, BigFish bigFish, int numRounds, int roundLength, int preRoundLength) {
         super(name);
         this.bigFish = bigFish;
         this.numRounds = numRounds;
         this.roundLength = roundLength;
         this.preRoundLength = preRoundLength;
+        this.timeLeft = 0;
         this.players = new ArrayList<>();
         updateFirebase(null);
 
@@ -58,11 +61,14 @@ public class Game extends NamedObject {
                 int numRounds = dataSnapshot.child("numRounds").getValue(int.class);
                 Game.this.numRounds = numRounds;
 
-                double roundLength = dataSnapshot.child("roundLength").getValue(double.class);
+                int roundLength = dataSnapshot.child("roundLength").getValue(int.class);
                 Game.this.roundLength = roundLength;
 
-                double preRoundLength = dataSnapshot.child("preRoundLength").getValue(double.class);
+                int preRoundLength = dataSnapshot.child("preRoundLength").getValue(int.class);
                 Game.this.preRoundLength = preRoundLength;
+
+                int timeLeft = dataSnapshot.child("timeLeft").getValue(int.class);
+                Game.this.timeLeft = timeLeft;
 
                 GenericTypeIndicator<Map<String, Object>> genericTypeIndicator = new GenericTypeIndicator<Map<String, Object>>() {};
                 Map<String, Object> players = dataSnapshot.child("players").getValue(genericTypeIndicator);
@@ -86,6 +92,12 @@ public class Game extends NamedObject {
 
     public Game(String id) {
         super("");
+        this.bigFish = null;
+        this.numRounds = 0;
+        this.roundLength = 0;
+        this.preRoundLength = 0;
+        this.timeLeft = 0;
+        this.players = new ArrayList<>();
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
@@ -111,16 +123,17 @@ public class Game extends NamedObject {
                 int numRounds = dataSnapshot.child("numRounds").getValue(int.class);
                 Game.this.numRounds = numRounds;
 
-                double roundLength = dataSnapshot.child("roundLength").getValue(double.class);
+                int roundLength = dataSnapshot.child("roundLength").getValue(int.class);
                 Game.this.roundLength = roundLength;
 
-                double preRoundLength = dataSnapshot.child("preRoundLength").getValue(double.class);
+                int preRoundLength = dataSnapshot.child("preRoundLength").getValue(int.class);
                 Game.this.preRoundLength = preRoundLength;
+
+                int timeLeft = dataSnapshot.child("timeLeft").getValue(int.class);
+                Game.this.timeLeft = timeLeft;
 
                 GenericTypeIndicator<Map<String, Object>> genericTypeIndicator = new GenericTypeIndicator<Map<String, Object>>() {};
                 Map<String, Object> players = dataSnapshot.child("players").getValue(genericTypeIndicator);
-
-                Game.this.players = new ArrayList<>();
 
                 if (players != null) {
                     for (String id : players.keySet()) {
@@ -150,6 +163,7 @@ public class Game extends NamedObject {
         myRef.child("numRounds").setValue(this.numRounds);
         myRef.child("roundLength").setValue(this.roundLength);
         myRef.child("preRoundLength").setValue(this.preRoundLength);
+        myRef.child("timeLeft").setValue(this.timeLeft);
 
         for (String id : players) {
             myRef.child("players").child(id).setValue(id);
@@ -158,6 +172,10 @@ public class Game extends NamedObject {
 
     public BigFish getBigFish() {
         return this.bigFish;
+    }
+
+    public int getTimeLeft() {
+        return timeLeft;
     }
 
     public List<String> getPlayers() {

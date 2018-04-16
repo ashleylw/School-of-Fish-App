@@ -20,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -195,12 +196,13 @@ public class PendingGameInfo extends AppCompatActivity {
 
         p = new Player(playerName.getText().toString(), role);
 
-        // TODO: Add player to player list in game
+        // Add player to player list in game
         game.addPlayer(p);
 
         // Start PlayerMain activity
         Intent myIntent = new Intent(PendingGameInfo.this, PlayerMain.class);
-        myIntent.putExtra("GameID", game.getID());
+        myIntent.putExtra("Game", (Serializable) game);
+        myIntent.putExtra("Player", (Serializable) p);
         PendingGameInfo.this.startActivity(myIntent);
     }
 

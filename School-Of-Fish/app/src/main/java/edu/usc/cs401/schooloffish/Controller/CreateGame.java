@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 
+import java.io.Serializable;
+
 import edu.usc.cs401.schooloffish.Model.BigFish;
 import edu.usc.cs401.schooloffish.Model.Game;
 import edu.usc.cs401.schooloffish.R;
@@ -53,8 +55,8 @@ public class CreateGame extends AppCompatActivity {
                     // disable button briefly
                     createGameButton.setEnabled(false);
 
-                    double roundLength = (double)roundLengthMins.getValue() + (double)roundLengthSecs.getValue()/60;
-                    double preRoundLength = (double)preRoundLengthMins.getValue() + (double)preRoundLengthSecs.getValue()/60;
+                    int roundLength = roundLengthMins.getValue()*60 + roundLengthSecs.getValue();
+                    int preRoundLength = preRoundLengthMins.getValue()*60 + preRoundLengthSecs.getValue();
 
                     // create and initialize new Game object
                     Game newGame = new Game(gameNameEntry.getText().toString(), new BigFish(bigFishNameEntry.getText().toString()),
@@ -64,7 +66,7 @@ public class CreateGame extends AppCompatActivity {
 
                     // go to big fish game screen for now
                     Intent myIntent = new Intent(CreateGame.this, BigFishMain.class);
-                    myIntent.putExtra("GameID", newGame.getID());
+                    myIntent.putExtra("Game", (Serializable) newGame);
                     CreateGame.this.startActivity(myIntent);
 
                 }

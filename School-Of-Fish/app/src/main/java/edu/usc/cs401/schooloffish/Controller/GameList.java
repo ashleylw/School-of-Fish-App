@@ -81,7 +81,7 @@ public class GameList extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> a, View v, int position,
                                     long id) {
-                // TODO: Have user prompted if they would like to join game
+                // Have user prompted if they would like to join game
                 Intent intent = new Intent(getActivity(), PendingGameInfo.class);
                 intent.putExtra("Pending Game", (Serializable) allGames.get(position));
                 startActivityForResult(intent, 0);

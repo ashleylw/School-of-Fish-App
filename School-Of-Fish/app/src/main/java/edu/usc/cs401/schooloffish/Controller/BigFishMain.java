@@ -6,6 +6,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
+import edu.usc.cs401.schooloffish.Model.Game;
 import edu.usc.cs401.schooloffish.R;
 
 /**
@@ -14,7 +15,7 @@ import edu.usc.cs401.schooloffish.R;
 
 public class BigFishMain extends AppCompatActivity {
 
-    private String gameID;
+    private Game game;
 
     @Override
     protected void onCreate (Bundle savedInstanceState) {
@@ -22,7 +23,7 @@ public class BigFishMain extends AppCompatActivity {
         setContentView(R.layout.big_fish_main);
 
         Intent intent = getIntent();
-        gameID = intent.getExtras().getString("GameID");
+        game = (Game) intent.getExtras().getSerializable("Game");
     }
 
 

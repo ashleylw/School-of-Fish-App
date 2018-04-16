@@ -106,7 +106,7 @@ public class PlayerRoster extends Fragment {
         // call the views with this layout
         listView = (ListView) v.findViewById(R.id.rosterListView);
 
-        playerRosterViewAdapter = new PlayerRosterViewAdapter(getActivity(), 0, players);
+        playerRosterViewAdapter = new PlayerRosterViewAdapter(getActivity(), R.layout.player_roster_item, players);
         listView.setAdapter(playerRosterViewAdapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

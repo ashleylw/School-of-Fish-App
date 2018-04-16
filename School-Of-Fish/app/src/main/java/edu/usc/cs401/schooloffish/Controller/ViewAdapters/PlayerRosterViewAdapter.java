@@ -1,6 +1,7 @@
 package edu.usc.cs401.schooloffish.Controller.ViewAdapters;
 
 import android.app.Activity;
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,14 +18,18 @@ import edu.usc.cs401.schooloffish.R;
  * Created by Ashley Walker on 3/22/2018.
  */
 
-public class PlayerRosterViewAdapter extends ArrayAdapter<Player> {
+public class PlayerRosterViewAdapter extends ArrayAdapter {
 
+    private Context mContext;
     private View view;
     private Player player;
     private List<Player> players;
+    private int id;
 
-    public PlayerRosterViewAdapter(Activity activity, int id, List<Player> players){
-        super(activity, 0);
+    public PlayerRosterViewAdapter(Context context, int id, List<Player> players){
+        super(context, id, players);
+        this.mContext = context;
+        this.id = id;
         this.players = players;
     }
 
@@ -48,10 +53,10 @@ public class PlayerRosterViewAdapter extends ArrayAdapter<Player> {
 
         //create new row view if null
         if (view == null) {
-            // If there's no view to re-use, inflate a brand new view for row
-            LayoutInflater inflater = LayoutInflater.from(getContext());
-            view = inflater.inflate(R.layout.player_roster_item, parent, false);
-            viewHolder = new ViewHolder(view);
+            LayoutInflater vi = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            view = vi.inflate(id, null);
+            viewHolder = new PlayerRosterViewAdapter.ViewHolder(view);
+
             // Cache the viewHolder object inside the fresh view
             view.setTag(viewHolder);
         } else {
@@ -62,7 +67,7 @@ public class PlayerRosterViewAdapter extends ArrayAdapter<Player> {
         // Populate the data from the data object via the viewHolder object
         // into the template view.
         viewHolder.playerName.setText(player.getName());
-        viewHolder.playerRole.setText("" + player.getRole().getName());
+        viewHolder.playerRole.setText(player.getRole().getName());
 
         // Return the completed view to render on screen
         return view;
